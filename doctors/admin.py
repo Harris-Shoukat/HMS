@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Department, Doctor
+from .models import Department, Doctor, Surgery
 
 
 @admin.register(Department)
@@ -20,3 +20,16 @@ class DoctorAdmin(admin.ModelAdmin):
     )
     search_fields = ("name", "email", "specialization")
     list_filter = ("department",)
+
+
+@admin.register(Surgery)
+class SurgeryAdmin(admin.ModelAdmin):
+    list_display = (
+        "surgery_id",
+        "surgery_type",
+        "patient",
+        "doctor",
+        "surgery_date",
+    )
+    list_filter = ("surgery_type", "surgery_date")
+    search_fields = ("patient__name", "doctor__name", "surgery_type", "notes")
