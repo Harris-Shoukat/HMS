@@ -1,10 +1,11 @@
 from datetime import timedelta
 
+from django.db.models import Count
 from django.utils import timezone
 from rest_framework import generics
 
-from .models import Patient
-from .serializers import PatientSerializer
+from .models import Insurance, Patient
+from .serializers import InsuranceProviderSerializer, PatientSerializer
 
 
 class UninsuredRecentAppointmentPatientsView(generics.ListAPIView):
@@ -22,4 +23,18 @@ class UninsuredRecentAppointmentPatientsView(generics.ListAPIView):
             )
             .distinct()
             .order_by("patient_id")
+        )
+
+
+class InsuranceProvidersView(generics.ListAPIView):
+    serializer_class = InsuranceProviderSerializer
+
+    def get_queryset(self):
+        return (
+            Insurance.objects
+            .values("provider",)
+            .annotate(active_patient_count=Count("patient_id"))
+            .filter(active_patient_count__gt=0)
+            .order_by("provider")
+            .distinct()
         )

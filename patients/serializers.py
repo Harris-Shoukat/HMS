@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from appointments.serializers import AppointmentSerializer
-from .models import Patient
+from .models import Insurance, Patient
 
 
 class PatientSerializer(serializers.ModelSerializer):
     appointments = AppointmentSerializer(many=True, read_only=True)
-    
+
     class Meta:
         model = Patient
         fields = (
@@ -18,3 +18,9 @@ class PatientSerializer(serializers.ModelSerializer):
             "email",
             "appointments",
         )
+
+
+class InsuranceProviderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Insurance
+        fields = ("provider",)
