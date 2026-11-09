@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from doctors.models import Doctor
 from patients.models import Patient
-from .models import Appointment
+from .models import Appointment, Prescription
 
 
 class PatientDetailsSerializer(serializers.ModelSerializer):
@@ -45,4 +45,33 @@ class AppointmentSerializer(serializers.ModelSerializer):
             "appointment_date",
             "status",
             "notes",
+        )
+
+
+class AppointmentPrescriptionSerializer(serializers.ModelSerializer):
+    doctor = DoctorDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = Appointment
+        fields = (
+            "appointment_id",
+            "doctor",
+            "appointment_date",
+            "status",
+            "notes",
+        )
+
+
+class PrescriptionSerializer(serializers.ModelSerializer):
+    appointment = AppointmentPrescriptionSerializer(read_only=True)
+    doctor = DoctorDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = Prescription
+        fields = (
+            "prescription_id",
+            "appointment",
+            "doctor",
+            "medicine_details",
+            "instructions",
         )

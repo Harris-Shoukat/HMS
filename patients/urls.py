@@ -1,6 +1,10 @@
 from django.urls import path
 
-from .views import InsuranceProvidersView, UninsuredRecentAppointmentPatientsView
+from .views import (
+    InsuranceProvidersView,
+    RecentAppointmentPatientsWithPrescriptionsView,
+    UninsuredRecentAppointmentPatientsView,
+)
 
 app_name = "patients"
 
@@ -14,5 +18,10 @@ urlpatterns = [
         "insurance-providers/",
         InsuranceProvidersView.as_view(),
         name="insurance-providers",
+    ),
+    path(
+        "recent-prescriptions/",
+        RecentAppointmentPatientsWithPrescriptionsView.as_view(),
+        name="recent-appointment-patients-with-prescriptions",
     ),
 ]
