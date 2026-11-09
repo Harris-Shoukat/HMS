@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Doctor, Surgery
+from .models import Department, Doctor, Surgery
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -14,6 +14,14 @@ class DoctorSerializer(serializers.ModelSerializer):
             "email",
             "department",
         )
+
+
+class DepartmentWithoutHeadSerializer(serializers.ModelSerializer):
+    doctor_count = serializers.IntegerField()
+
+    class Meta:
+        model = Department
+        fields = ("department_id", "name", "doctor_count")
 
 
 class SurgeryCostSerializer(serializers.ModelSerializer):

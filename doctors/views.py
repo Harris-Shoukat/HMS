@@ -5,8 +5,12 @@ from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework import generics
 
-from .models import Doctor, Surgery
-from .serializers import DoctorSerializer, SurgeryCostSerializer
+from .models import Department, Doctor, Surgery
+from .serializers import (
+    DepartmentWithoutHeadSerializer,
+    DoctorSerializer,
+    SurgeryCostSerializer,
+)
 
 
 class HighlyBookedDoctorsView(generics.ListAPIView):
@@ -42,4 +46,15 @@ class PatientSurgeryCostView(generics.ListAPIView):
             )
             .filter(num_surgeries__gt=1)
             .order_by("patient_id")
+        )
+
+
+class DepartmentsWithoutHeadDoctorView(generics.ListAPIView):
+    serializer_class = DepartmentWithoutHeadSerializer
+
+    def get_queryset(self):
+        return (
+            Department.objects.annotate(doctor_count=Count("doctors"))
+            .filter(doctor_count__gte=3, head_doctor__isnull=True)
+            .order_by("name")
         )
