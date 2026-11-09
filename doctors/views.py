@@ -1,11 +1,12 @@
 from datetime import timedelta
 
+from django.db import models
 from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework import generics
 
-from .models import Doctor
-from .serializers import DoctorSerializer
+from .models import Doctor, Surgery
+from .serializers import DoctorSerializer, SurgeryCostSerializer
 
 
 class HighlyBookedDoctorsView(generics.ListAPIView):
@@ -25,4 +26,20 @@ class HighlyBookedDoctorsView(generics.ListAPIView):
             )
             .filter(appointment_count__gt=10)
             .order_by("doctor_id")
+        )
+
+
+class PatientSurgeryCostView(generics.ListAPIView):
+    serializer_class = SurgeryCostSerializer
+
+    def get_queryset(self):
+        return (
+            Surgery.objects
+            .values("patient_id", "patient__name")
+            .annotate(
+                num_surgeries=models.Count("surgery_id"),
+                total_cost=models.Sum("cost"),
+            )
+            .filter(num_surgeries__gt=1)
+            .order_by("patient_id")
         )

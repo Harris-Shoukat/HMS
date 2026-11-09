@@ -49,6 +49,7 @@ class Surgery(models.Model):
     )
     surgery_date = models.DateTimeField()
     surgery_type = models.CharField(max_length=255)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     notes = models.TextField(blank=True)
 
     def __str__(self):
