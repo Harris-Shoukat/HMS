@@ -4,6 +4,7 @@ from .views import (
     DepartmentsWithoutHeadDoctorView,
     HighlyBookedDoctorsView,
     PatientSurgeryCostView,
+    UninsuredRecentSurgeryTotalView,
 )
 
 app_name = "doctors"
@@ -23,5 +24,10 @@ urlpatterns = [
         "departments-without-head/",
         DepartmentsWithoutHeadDoctorView.as_view(),
         name="departments-without-head-doctor",
+    ),
+    path(
+        "uninsured-last-month-billed/",
+        UninsuredRecentSurgeryTotalView.as_view(),
+        name="uninsured-last-month-billed",
     ),
 ]

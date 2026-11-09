@@ -33,3 +33,11 @@ class SurgeryCostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Surgery
         fields = ("patient_id", "patient_name", "num_surgeries", "total_cost")
+
+
+class UninsuredRecentSurgeryTotalSerializer(serializers.Serializer):
+    total_billed = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        allow_null=True,
+    )
