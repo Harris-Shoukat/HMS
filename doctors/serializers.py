@@ -13,6 +13,9 @@ class DoctorSerializer(serializers.ModelSerializer):
             "phone",
             "email",
             "department",
+            "fee",
+            "last_fee_increase_amount",
+            "last_fee_increase_date",
         )
 
 
