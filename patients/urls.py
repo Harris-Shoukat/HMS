@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import (
+    AverageAgeSurgeryPatientsWithoutAppointmentsView,
     InsuranceProvidersView,
     RecentAppointmentPatientsWithPrescriptionsView,
     UninsuredRecentAppointmentPatientsView,
@@ -23,5 +24,10 @@ urlpatterns = [
         "recent-prescriptions/",
         RecentAppointmentPatientsWithPrescriptionsView.as_view(),
         name="recent-appointment-patients-with-prescriptions",
+    ),
+    path(
+        "average-age-surgery-no-appointments/",
+        AverageAgeSurgeryPatientsWithoutAppointmentsView.as_view(),
+        name="average-age-surgery-patients-without-appointments",
     ),
 ]

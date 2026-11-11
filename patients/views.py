@@ -1,8 +1,10 @@
 from datetime import timedelta
 
-from django.db.models import Count
+from django.db.models import Count, Q, Sum
 from django.utils import timezone
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Insurance, Patient
 from .serializers import (
@@ -60,3 +62,21 @@ class RecentAppointmentPatientsWithPrescriptionsView(generics.ListAPIView):
             .distinct()
             .order_by("-appointments__appointment_date")
         )
+
+
+class AverageAgeSurgeryPatientsWithoutAppointmentsView(APIView):
+    def get(self, request):
+        today = timezone.localdate()
+        patients = Patient.objects.filter(
+            surgeries__isnull=False,
+            appointments__isnull=True,
+        ).distinct()
+
+        ages = [
+            today.year - patient.dob.year
+            - ((today.month, today.day) < (patient.dob.month, patient.dob.day))
+            for patient in patients
+        ]
+        average_age = round(sum(ages) / len(ages), 2) if ages else None
+
+        return Response({"average_age": average_age})
