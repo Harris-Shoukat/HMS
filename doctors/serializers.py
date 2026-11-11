@@ -27,6 +27,12 @@ class DepartmentWithoutHeadSerializer(serializers.ModelSerializer):
         fields = ("department_id", "name", "doctor_count")
 
 
+class DoctorPrescriptionCountSerializer(serializers.Serializer):
+    doctor_id = serializers.IntegerField()
+    doctor_name = serializers.CharField()
+    prescription_count = serializers.IntegerField()
+
+
 class SurgeryCostSerializer(serializers.ModelSerializer):
     patient_id = serializers.IntegerField()
     patient_name = serializers.CharField(source="patient__name")

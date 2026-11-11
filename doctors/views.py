@@ -13,6 +13,7 @@ from .models import Department, Doctor, Surgery
 from .serializers import (
     DepartmentWithoutHeadSerializer,
     DoctorSerializer,
+    DoctorPrescriptionCountSerializer,
     SurgeryCostSerializer,
     UninsuredRecentSurgeryTotalSerializer,
 )
@@ -62,6 +63,18 @@ class DepartmentsWithoutHeadDoctorView(generics.ListAPIView):
             Department.objects.annotate(doctor_count=Count("doctors"))
             .filter(doctor_count__gte=3, head_doctor__isnull=True)
             .order_by("name")
+        )
+
+
+class DoctorsWithAtLeastFivePrescriptionsView(generics.ListAPIView):
+    serializer_class = DoctorPrescriptionCountSerializer
+
+    def get_queryset(self):
+        return (
+            Doctor.objects.values("doctor_id", doctor_name=F("name"))
+            .annotate(prescription_count=Count("prescriptions"))
+            .filter(prescription_count__gte=5)
+            .order_by("doctor_id")
         )
 
 
