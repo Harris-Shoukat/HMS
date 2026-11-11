@@ -13,6 +13,9 @@ class DoctorSerializer(serializers.ModelSerializer):
             "phone",
             "email",
             "department",
+            "fee",
+            "last_fee_increase_amount",
+            "last_fee_increase_date",
         )
 
 
@@ -22,6 +25,12 @@ class DepartmentWithoutHeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ("department_id", "name", "doctor_count")
+
+
+class DoctorPrescriptionCountSerializer(serializers.Serializer):
+    doctor_id = serializers.IntegerField()
+    doctor_name = serializers.CharField()
+    prescription_count = serializers.IntegerField()
 
 
 class SurgeryCostSerializer(serializers.ModelSerializer):

@@ -44,8 +44,18 @@ class AppointmentSerializer(serializers.ModelSerializer):
             "doctor",
             "appointment_date",
             "status",
+            "priority",
             "notes",
         )
+
+
+class BulkAppointmentCreateSerializer(serializers.Serializer):
+    doctor_id = serializers.PrimaryKeyRelatedField(
+        source="doctor",
+        queryset=Doctor.objects.all(),
+    )
+    appointment_date = serializers.DateTimeField()
+    notes = serializers.CharField(required=False, allow_blank=True, default="")
 
 
 class AppointmentPrescriptionSerializer(serializers.ModelSerializer):
@@ -58,6 +68,7 @@ class AppointmentPrescriptionSerializer(serializers.ModelSerializer):
             "doctor",
             "appointment_date",
             "status",
+            "priority",
             "notes",
         )
 

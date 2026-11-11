@@ -24,6 +24,14 @@ class Doctor(models.Model):
     specialization = models.CharField(max_length=255)
     phone = models.CharField(max_length=15)
     email = models.EmailField(max_length=255, unique=True)
+    fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    last_fee_increase_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    last_fee_increase_date = models.DateTimeField(null=True, blank=True)
 
     department = models.ForeignKey(
         Department,
