@@ -1,6 +1,10 @@
 from django.urls import path
 
-from .views import BulkCreateAppointmentsView, UpcomingAppointmentListView
+from .views import (
+    BulkCreateAppointmentsView,
+    InsuranceProviderWeekdayAppointmentsView,
+    UpcomingAppointmentListView,
+)
 
 app_name = "appointments"
 
@@ -20,5 +24,10 @@ urlpatterns = [
         "upcoming/",
         UpcomingAppointmentListView.as_view(),
         name="upcoming-appointments",
+    ),
+    path(
+        "insurance-weekday/",
+        InsuranceProviderWeekdayAppointmentsView.as_view(),
+        name="insurance-provider-weekday-appointments",
     ),
 ]

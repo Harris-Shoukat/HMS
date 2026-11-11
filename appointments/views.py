@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.db import transaction
 from django.utils import timezone
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -23,6 +24,22 @@ class UpcomingAppointmentListView(generics.ListAPIView):
                 appointment_date__gte=now,
                 appointment_date__lte=next_seven_days,
             )
+            .order_by("appointment_date")
+        )
+
+
+class InsuranceProviderWeekdayAppointmentsView(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+
+    def get_queryset(self):
+        provider = self.request.query_params.get("provider")
+        if not provider:
+            raise ValidationError({"provider": "This query parameter is required."})
+
+        return (
+            Appointment.objects.select_related("patient", "doctor")
+            .filter(patient__insurance__provider=provider)
+            .exclude(appointment_date__week_day=1)
             .order_by("appointment_date")
         )
 
