@@ -30,6 +30,7 @@ class SurgeryAdmin(admin.ModelAdmin):
         "patient",
         "doctor",
         "surgery_date",
+        "cost",
     )
     list_filter = ("surgery_type", "surgery_date")
     search_fields = ("patient__name", "doctor__name", "surgery_type", "notes")

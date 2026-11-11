@@ -6,6 +6,7 @@ class Appointment(models.Model):
         SCHEDULED = "Scheduled", "Scheduled"
         COMPLETED = "Completed", "Completed"
         CANCELLED = "Cancelled", "Cancelled"
+        MISSED = "Missed", "Missed"
 
     appointment_id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(

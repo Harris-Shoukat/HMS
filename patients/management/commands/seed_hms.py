@@ -230,6 +230,7 @@ class Command(BaseCommand):
                         tzinfo=timezone.get_current_timezone(),
                     ),
                     surgery_type=fake.job(),
+                    cost=round(random.uniform(250.00, 8500.00), 2),
                     notes=fake.sentence() if random.random() < 0.7 else "",
                 )
 
