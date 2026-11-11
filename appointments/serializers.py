@@ -44,6 +44,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
             "doctor",
             "appointment_date",
             "status",
+            "priority",
             "notes",
         )
 
@@ -67,6 +68,7 @@ class AppointmentPrescriptionSerializer(serializers.ModelSerializer):
             "doctor",
             "appointment_date",
             "status",
+            "priority",
             "notes",
         )
 

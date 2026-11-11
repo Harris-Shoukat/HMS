@@ -4,6 +4,7 @@ from .views import (
     BulkCreateAppointmentsView,
     InsuranceProviderWeekdayAppointmentsView,
     UpcomingAppointmentListView,
+    UpdateAppointmentPrioritiesView,
 )
 
 app_name = "appointments"
@@ -24,6 +25,11 @@ urlpatterns = [
         "upcoming/",
         UpcomingAppointmentListView.as_view(),
         name="upcoming-appointments",
+    ),
+    path(
+        "update-priorities/",
+        UpdateAppointmentPrioritiesView.as_view(),
+        name="update-appointment-priorities",
     ),
     path(
         "insurance-weekday/",

@@ -8,6 +8,11 @@ class Appointment(models.Model):
         CANCELLED = "Cancelled", "Cancelled"
         MISSED = "Missed", "Missed"
 
+    class Priority(models.TextChoices):
+        HIGH = "High", "High"
+        MEDIUM = "Medium", "Medium"
+        LOW = "Low", "Low"
+
     appointment_id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(
         "patients.Patient",
@@ -24,6 +29,11 @@ class Appointment(models.Model):
         max_length=10,
         choices=Status.choices,
         default=Status.SCHEDULED,
+    )
+    priority = models.CharField(
+        max_length=10,
+        choices=Priority.choices,
+        default=Priority.LOW,
     )
     notes = models.TextField(blank=True)
 
