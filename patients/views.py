@@ -13,3 +13,13 @@ class PatientsWithAppointmentsOrSurgeriesView(APIView):
 		).distinct().order_by("patient_id")
 		serializer = PatientSerializer(patients, many=True)
 		return Response(serializer.data)
+
+
+class PatientsWithAppointmentsAndPrescriptionsView(APIView):
+	def get(self, request):
+		patients = Patient.objects.filter(
+			appointments__isnull=False,
+			prescriptions__isnull=False,
+		).distinct().order_by("patient_id")
+		serializer = PatientSerializer(patients, many=True)
+		return Response(serializer.data)
