@@ -46,3 +46,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
             "status",
             "notes",
         )
+
+
+class AppointmentBulkCreateItemSerializer(serializers.Serializer):
+    patient = serializers.PrimaryKeyRelatedField(queryset=Patient.objects.all())
+    doctor = serializers.PrimaryKeyRelatedField(queryset=Doctor.objects.all())
+    appointment_date = serializers.DateTimeField()
+    notes = serializers.CharField(required=False, allow_blank=True, default="")
